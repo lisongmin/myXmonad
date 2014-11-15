@@ -1,0 +1,21 @@
+# ~/.conkyrc
+# Thayer Williams - http://cinderwick.ca
+# vim:nu:ai:si:et:ts=4:sw=4:ft=conkyrc:
+
+background no
+out_to_x no
+out_to_console yes
+update_interval 3
+total_run_times 0
+use_spacer none
+
+# temp, loadavg, cpu usage, cpu freq, battery, network (click launches wicd), date
+
+TEXT
+^fg(\#999999)T:${hwmon temp 1}°^fg()|\
+^fg(\#666666)L:${loadavg 1}^fg()|\
+^fg(\#888888)C:${cpu cpu1}%^fg() ^fg(\#aaaaaa)${freq_g 1}GHz^fg()|\
+^fg(\#91b8ff)${if_existing /sys/class/power_supply/BAT1/present}${battery_short BAT1}(${battery_time BAT1})${endif}^fg()|\
+${if_up enp4s0f1}^fg(\#bbbbbb)N:^fg()^fg(\#d94c3d)${upspeedf enp4s0f1}^fg()/^fg(\#a4bc51)${downspeedf enp4s0f1}k^fg()${endif} \
+${if_up wlp3s0}^fg(\#bbbbbb)W:^fg()^fg(\#d94c3d)${upspeedf wlp3s0}^fg()/^fg(\#a4bc51)${downspeedf wlp3s0}k^fg()${endif}|\
+^fg(\#ffffff)${time %b %d %H:%M}^fg()
