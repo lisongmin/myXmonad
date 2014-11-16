@@ -70,7 +70,7 @@ myStartupHook = do
     -- modify by `xrandr -q`
     spawn "/usr/bin/xrandr --auto --output eDP1 --primary --auto --output HDMI1 --right-of eDP1 --auto --output VGA1 --right-of eDP1"
     -- background setting
-    spawn "sleep 0.1; /usr/bin/feh --bg-scale /home/lsm/.cinnamon/backgrounds/jzbq.jpg"
+    spawn "sleep 0.1; /usr/bin/feh --bg-scale ~/.xmonad/jzbq.jpeg"
 
 myManageHook = composeAll . concat $
     [ [ className   =? c --> doF(W.shift "2:www") | c <- webApps]
