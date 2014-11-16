@@ -18,4 +18,4 @@ TEXT
 ^fg(\#91b8ff)${if_existing /sys/class/power_supply/BAT1/present}${battery_short BAT1}(${battery_time BAT1})${endif}^fg()|\
 ${if_up enp4s0f1}^fg(\#bbbbbb)N:^fg()^fg(\#d94c3d)${upspeedf enp4s0f1}^fg()/^fg(\#a4bc51)${downspeedf enp4s0f1}k^fg()${endif} \
 ${if_up wlp3s0}^fg(\#bbbbbb)W:^fg()^fg(\#d94c3d)${upspeedf wlp3s0}^fg()/^fg(\#a4bc51)${downspeedf wlp3s0}k^fg()${endif}|\
-^fg(\#ffffff)${time %b %d %H:%M}^fg()
+^fg(\#ffffff)${time %m-%d %H:%M}^fg()
