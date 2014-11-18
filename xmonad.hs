@@ -128,7 +128,7 @@ myKeys =
   ]
 
 -- the default layout is fullscreen with smartborders applied to all
-myLayout = onWorkspace "4:edit" fullL $ onWorkspace "8:media" fullL $ avoidStruts $ smartBorders ( full ||| mtiled ||| tiled )
+myLayout = onWorkspace "8:media" fullL $ avoidStruts $ smartBorders ( full ||| mtiled ||| tiled )
   where
     full    = named "X" $ Full
     mtiled  = named "M" $ Mirror tiled
