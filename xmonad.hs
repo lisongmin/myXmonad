@@ -20,7 +20,11 @@ import XMonad.Layout.NoBorders     -- smart borders on solo clients
 import XMonad.Util.EZConfig        -- append key/mouse bindings
 import XMonad.Util.Run(spawnPipe)  -- spawnPipe and hPutStrLn
 import System.IO                   -- hPutStrLn scope
-
+import Control.Monad(liftM2)
+import XMonad.Layout.NoBorders
+import XMonad.Layout.PerWorkspace
+import XMonad.Layout.IM
+import XMonad.Hooks.ManageHelpers(doFullFloat)
 -- for volume control ...
 import Graphics.X11.ExtraTypes.XF86
 
@@ -35,7 +39,7 @@ main = do
   conky  <- spawnPipe myDzenConky
 
   xmonad $ withUrgencyHook NoUrgencyHook $ defaultConfig {
-    terminal      = "gnome-terminal --hide-menubar"
+    terminal      = "xfce4-terminal"
     , modMask     = myModMask
     , workspaces  = myWorkspaces
     , borderWidth = 3
@@ -46,9 +50,10 @@ main = do
     , logHook     = myLogHook status
     , manageHook  = manageDocks <+> myManageHook <+> manageHook defaultConfig
     , startupHook = myStartupHook
+    , focusFollowsMouse = False
     } `additionalKeys` myKeys
 
-myModMask = mod1Mask
+myModMask = mod4Mask
 
 myWorkspaces =
   [ "1:-"
@@ -71,20 +76,23 @@ myStartupHook = do
     spawn "/usr/bin/xrandr --auto --output eDP1 --primary --auto --output HDMI1 --right-of eDP1 --auto --output VGA1 --right-of eDP1"
     -- background setting
     spawn "sleep 0.1; /usr/bin/feh --bg-scale ~/.xmonad/jzbq.jpeg"
+    -- screensaver daemons
+    spawn "cinnamon-screensaver"
 
 myManageHook = composeAll . concat $
     [ [ className   =? c --> doF(W.shift "2:www") | c <- webApps]
     , [ className   =? "Thunderbird" --> doF(W.shift "3:mail")]
-    , [ className   =? "Gvimdiff" --> doF(W.shift "4:edit")]
-    , [ className   =? "Gvim" --> doF(W.shift "4:edit")]
+    , [ className   =? "Gvim" --> viewShift "4:edit"]
     , [ className   =? "Nemo" --> doF(W.shift "5:file")]
     , [ className   =? "Rhythmbox" --> doF(W.shift "8:media")]
-    , [ className   =? "Mplayer" --> doF(W.shift "8:media")]
+    , [ className   =? "Mplayer" --> viewShift "8:media"]
     , [ className   =? c --> doF(W.shift "9:chat") | c <- ircApps]
-    , [ resource   =? "TeamViewer.exe" --> doF(W.shift "7")]
+    , [ resource    =? "TeamViewer.exe" <&&> title =? "Computers & Contacts" --> doIgnore]
+    , [ resource    =? "TeamViewer.exe" --> viewShift "7"]
     ]
   where webApps       = ["Firefox"]
         ircApps       = ["Pidgin", "Virt-viewer"]
+        viewShift     = doF . liftM2 (.) W.greedyView W.shift
 
 myScreenshot = "scrot" ++ myScreenshotOptions
 myScreenshotArea = "sleep 0.3s; scrot -s" ++ myScreenshotOptions
@@ -92,43 +100,41 @@ myScreenshotOptions = " -e 'mv $f ~/Pictures/' '%Y%m%dT%H%M%S_$wx$h_scrot.png'"
 
 myKeys =
   -- run command
-  [ ((myModMask, xK_F2), spawn "gmrun")
+  [ ((mod1Mask, xK_F2), spawn "gmrun")
   , ((myModMask, xK_p), spawn "gmrun")
-  -- , ((mod1Mask, xK_Tab), cycleRecentWindows [xK_Alt_L] xK_Tab xK_Tab ) -- classic alt-tab behaviour
+  -- classic alt-tab behaviour
+  , ((mod1Mask, xK_Tab), cycleRecentWindows [xK_Alt_L] xK_Tab xK_Tab )
   -- lock screen
-  , ((controlMask .|. mod1Mask, xK_l), spawn "gnome-screensaver-command --lock")
+  , ((controlMask .|. mod1Mask, xK_l), spawn "cinnamon-screensaver-command --lock")
   -- print screen
   , ((controlMask, xK_Print), spawn myScreenshotArea)
   , ((0, xK_Print), spawn myScreenshot)
   -- reboot or shutdown
+  -- TODO add comfirm box.
   , ((controlMask .|. shiftMask, xK_Delete), spawn "systemctl reboot")
   , ((controlMask .|. shiftMask, xK_Insert), spawn "systemctl poweroff")
   -- applications key map
-  , ((mod4Mask, xK_w), spawn "firefox")
-  , ((mod4Mask, xK_f), spawn "nemo --no-desktop")
-  , ((mod4Mask, xK_m), spawn "thunderbird")
-  , ((mod4Mask, xK_p), spawn "pidgin")
-  , ((mod4Mask, xK_v), spawn "virt-viewer -c qemu:///system win7")
+  , ((myModMask .|. shiftMask, xK_w), spawn "firefox")
+  , ((myModMask .|. shiftMask, xK_f), spawn "nemo --no-desktop")
+  , ((myModMask .|. shiftMask, xK_m), spawn "thunderbird")
+  , ((myModMask .|. shiftMask, xK_p), spawn "pidgin")
+  , ((myModMask .|. shiftMask, xK_v), spawn "virt-viewer -c qemu:///system win7")
   -- volume control
   , ((0 , xF86XK_AudioLowerVolume), spawn "amixer set Master 4%-")
   , ((0 , xF86XK_AudioRaiseVolume), spawn "amixer set Master 4%+")
   , ((0 , xF86XK_AudioMute), spawn "amixer set Master toggle")
+  -- undo float windows.
+  , ((myModMask, xK_t ), withFocused $ windows . W.sink)
   ]
 
 -- the default layout is fullscreen with smartborders applied to all
-myLayout = avoidStruts $ smartBorders ( full ||| mtiled ||| tiled )
+myLayout = onWorkspace "4:edit" fullL $ onWorkspace "8:media" fullL $ avoidStruts $ smartBorders ( full ||| mtiled ||| tiled )
   where
     full    = named "X" $ Full
     mtiled  = named "M" $ Mirror tiled
     tiled   = named "T" $ Tall 1 (5/100) (2/(1+(toRational(sqrt(5)::Double))))
+    fullL   = noBorders $ Full
 
-    -- Teamviewer windows:
-    -- File transfer
-    -- TeamViewer Pannel
-    -- - TeamViewer -
-    -- TeamViewer
-    -- Computers & Contacts
-    --
 -- Statusbar
 --
 myLogHook h = dynamicLogWithPP $ myDzenPP { ppOutput = hPutStrLn h }
