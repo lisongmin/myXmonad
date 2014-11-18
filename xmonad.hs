@@ -73,7 +73,7 @@ myStartupHook = do
     -- input method
     spawn "fcitx"
     -- modify by `xrandr -q`
-    spawn "/usr/bin/xrandr --auto --output eDP1 --primary --auto --output HDMI1 --right-of eDP1 --auto --output VGA1 --right-of eDP1"
+    spawn "/usr/bin/xrandr --auto --output LVDS1 --primary --auto --output HDMI1 --right-of LVDS1 --auto --output VGA1 --right-of LVDS1"
     -- background setting
     spawn "sleep 0.1; /usr/bin/feh --bg-scale ~/.xmonad/jzbq.jpeg"
     -- screensaver daemons
@@ -139,8 +139,8 @@ myLayout = onWorkspace "8:media" fullL $ avoidStruts $ smartBorders ( full ||| m
 --
 myLogHook h = dynamicLogWithPP $ myDzenPP { ppOutput = hPutStrLn h }
 
-myDzenStatus = "dzen2 -xs 1 -w 1024 -ta 'l'" ++ myDzenStyle
-myDzenConky  = "conky -c ~/.xmonad/conkyrc | dzen2 -xs 1 -x 1024 -ta 'r'" ++ myDzenStyle
+myDzenStatus = "dzen2 -xs 1 -w 720 -ta 'l'" ++ myDzenStyle
+myDzenConky  = "conky -c ~/.xmonad/conkyrc | dzen2 -xs 1 -x 720 -ta 'r'" ++ myDzenStyle
 myDzenStyle  = " -u -h '20' -fg '#777777' -bg '#222222' -fn 'arial:bold:size=11'"
 
 myDzenPP  = dzenPP
