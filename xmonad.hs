@@ -6,6 +6,7 @@
 -- gmrun                -- for quick launch
 -- amixer               -- for volume control
 -- scrot                -- for screenshot (gnome-screenshot -a can not show border clearly)
+-- udiskie              -- for automount.
 
 import XMonad
 import XMonad.Actions.CycleWindows -- classic alt-tab
@@ -74,6 +75,8 @@ myStartupHook = do
     spawn "fcitx"
     -- modify by `xrandr -q`
     spawn "/usr/bin/xrandr --auto --output LVDS1 --primary --auto --output HDMI1 --right-of LVDS1 --auto --output VGA1 --right-of LVDS1"
+    -- automount
+    spawn "udiskie"
     -- background setting
     spawn "sleep 0.1; /usr/bin/feh --bg-scale ~/.xmonad/jzbq.jpeg"
     -- screensaver daemons
