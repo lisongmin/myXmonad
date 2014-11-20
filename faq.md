@@ -54,9 +54,4 @@ polkit.addRule(function(action, subject) {
   }
 });
 ```
-* 启动udisks2并加入开机自启动
-```bash
-systemctl start udisks2.service
-systemctl enable udisks2.service
-```
 * 启动xmonad的时候，启动udiskie，参见xmonad.hs
