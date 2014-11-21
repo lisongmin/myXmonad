@@ -76,7 +76,7 @@ myStartupHook = do
     -- modify by `xrandr -q`
     spawn "/usr/bin/xrandr --auto --output LVDS1 --primary --auto --output HDMI1 --right-of LVDS1 --auto --output VGA1 --right-of LVDS1"
     -- automount
-    spawn "udiskie"
+    spawn "udiskie -2"
     -- background setting
     spawn "sleep 0.1; /usr/bin/feh --bg-scale ~/.xmonad/jzbq.jpeg"
     -- screensaver daemons
