@@ -19,11 +19,11 @@ polkit.addRule(function(action, subject) {
 The polkit actions can found in `/usr/share/polkit-1`
 
 # automount under xmonad
-## 采用 udisks + udiskie 完成外接硬盘的自动挂载。
+## 采用 udisks2 + udiskie 完成外接硬盘的自动挂载。
 ```bash
-pacman -S udiskie
+pacman -S udisks2 udiskie
 ```
-## 配置udisks的访问权限
+## 配置udisks2的访问权限
 * 加入storage组
 ```bash
 usermod -a -G storage $USER
