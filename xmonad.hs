@@ -4,7 +4,7 @@
 -- feh                  -- for setting background
 -- xrander              -- for multi-head
 -- gmrun                -- for quick launch
--- amixer               -- for volume control
+-- amixer               -- for volume control(in alsa-utils)
 -- scrot                -- for screenshot (gnome-screenshot -a can not show border clearly)
 -- udiskie              -- for automount.
 
