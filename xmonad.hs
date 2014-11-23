@@ -7,6 +7,8 @@
 -- amixer               -- for volume control
 -- scrot                -- for screenshot (gnome-screenshot -a can not show border clearly)
 -- udiskie              -- for automount.
+-- nm-applet            -- for network manager in trayer
+-- trayer               -- for trayer support
 
 import XMonad
 import XMonad.Actions.CycleWindows -- classic alt-tab
@@ -71,6 +73,7 @@ myWorkspaces =
 myStartupHook = do
     -- set no beep
     spawn "xset -b"
+    spawn "trayer --edge top --align right --widthtype request --expand true --SetDockType true --SetPartialStrut true --transparent true --alpha 0 --tint 0x1A1918 --expand true --heighttype pixel --height 20 --padding 1"
     -- input method
     spawn "fcitx"
     -- modify by `xrandr -q`
@@ -81,12 +84,14 @@ myStartupHook = do
     spawn "sleep 0.1; /usr/bin/feh --bg-scale ~/.xmonad/jzbq.jpeg"
     -- screensaver daemons
     spawn "cinnamon-screensaver"
+    -- nm-applet
+    spawn "sleep 0.1;nm-applet"
 
 myManageHook = composeAll . concat $
     [ [ className   =? c --> doF(W.shift "2:www") | c <- webApps]
     , [ className   =? "Thunderbird" --> doF(W.shift "3:mail")]
     , [ className   =? "Gvim" --> viewShift "4:edit"]
-    , [ className   =? "Nemo" --> doF(W.shift "5:file")]
+    , [ className   =? "thunar" --> doF(W.shift "5:file")]
     , [ className   =? "Rhythmbox" --> doF(W.shift "8:media")]
     , [ className   =? "Mplayer" --> viewShift "8:media"]
     , [ className   =? c --> doF(W.shift "9:chat") | c <- ircApps]
@@ -118,7 +123,7 @@ myKeys =
   , ((controlMask .|. shiftMask, xK_Insert), spawn "systemctl poweroff")
   -- applications key map
   , ((myModMask .|. shiftMask, xK_w), spawn "firefox")
-  , ((myModMask .|. shiftMask, xK_f), spawn "nemo --no-desktop")
+  , ((myModMask .|. shiftMask, xK_f), spawn "thunar")
   , ((myModMask .|. shiftMask, xK_m), spawn "thunderbird")
   , ((myModMask .|. shiftMask, xK_p), spawn "pidgin")
   , ((myModMask .|. shiftMask, xK_v), spawn "virt-viewer -c qemu:///system win7")
