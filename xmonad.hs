@@ -123,7 +123,7 @@ myKeys =
   , ((controlMask .|. shiftMask, xK_Insert), spawn "systemctl poweroff")
   -- applications key map
   , ((myModMask .|. shiftMask, xK_w), spawn "firefox")
-  , ((myModMask .|. shiftMask, xK_f), spawn "thunar")
+  , ((myModMask .|. shiftMask, xK_f), spawn "nemo --no-desktop")
   , ((myModMask .|. shiftMask, xK_m), spawn "thunderbird")
   , ((myModMask .|. shiftMask, xK_p), spawn "pidgin")
   , ((myModMask .|. shiftMask, xK_v), spawn "virt-viewer -c qemu:///system win7")
