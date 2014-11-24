@@ -147,8 +147,8 @@ myLayout = onWorkspace "8:media" fullL $ avoidStruts $ smartBorders ( full ||| m
 --
 myLogHook h = dynamicLogWithPP $ myDzenPP { ppOutput = hPutStrLn h }
 
-myDzenStatus = "dzen2 -xs 1 -w 720 -ta 'l'" ++ myDzenStyle
-myDzenConky  = "conky -c ~/.xmonad/conkyrc | dzen2 -xs 1 -x 720 -w 500 -ta 'r'" ++ myDzenStyle
+myDzenStatus = "dzen2 -xs 1 -w 700 -ta 'l'" ++ myDzenStyle
+myDzenConky  = "conky -c ~/.xmonad/conkyrc | dzen2 -xs 1 -x 700 -w 520 -ta 'r'" ++ myDzenStyle
 myDzenStyle  = " -u -h '24' -fg '#222222' -bg '#C7B7A0' -fn 'arial:bold:size=11'"
 
 myDzenPP  = dzenPP
