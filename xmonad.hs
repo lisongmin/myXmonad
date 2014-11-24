@@ -73,19 +73,19 @@ myWorkspaces =
 myStartupHook = do
     -- set no beep
     spawn "xset -b"
-    spawn "trayer --edge top --align right --widthtype request --expand true --SetDockType true --SetPartialStrut true --transparent true --alpha 0 --tint 0x1A1918 --expand true --heighttype pixel --height 20 --padding 1"
+    spawn "pgrep -x trayer ||trayer --edge top --align right --widthtype pixel --width 100 --transparent true --alpha 0 --tint 0xC7B7A0 --height 24 --padding 1"
     -- input method
-    spawn "fcitx"
+    spawn "pgrep -x fcitx || fcitx"
     -- modify by `xrandr -q`
     spawn "/usr/bin/xrandr --auto --output LVDS1 --primary --auto --output HDMI1 --right-of LVDS1 --auto --output VGA1 --right-of LVDS1"
     -- automount
-    spawn "udiskie -2"
+    spawn "pgrep -x udiskie || udiskie -2"
     -- background setting
     spawn "sleep 0.1; /usr/bin/feh --bg-scale ~/.xmonad/jzbq.jpeg"
     -- screensaver daemons
     spawn "cinnamon-screensaver"
     -- nm-applet
-    spawn "sleep 0.1;nm-applet"
+    spawn "sleep 0.1;pgrep -x nm-applet || nm-applet"
 
 myManageHook = composeAll . concat $
     [ [ className   =? c --> doF(W.shift "2:www") | c <- webApps]
@@ -148,8 +148,8 @@ myLayout = onWorkspace "8:media" fullL $ avoidStruts $ smartBorders ( full ||| m
 myLogHook h = dynamicLogWithPP $ myDzenPP { ppOutput = hPutStrLn h }
 
 myDzenStatus = "dzen2 -xs 1 -w 720 -ta 'l'" ++ myDzenStyle
-myDzenConky  = "conky -c ~/.xmonad/conkyrc | dzen2 -xs 1 -x 720 -ta 'r'" ++ myDzenStyle
-myDzenStyle  = " -u -h '20' -fg '#777777' -bg '#222222' -fn 'arial:bold:size=11'"
+myDzenConky  = "conky -c ~/.xmonad/conkyrc | dzen2 -xs 1 -x 720 -w 546 -ta 'r'" ++ myDzenStyle
+myDzenStyle  = " -u -h '24' -fg '#222222' -bg '#C7B7A0' -fn 'arial:bold:size=11'"
 
 myDzenPP  = dzenPP
     { ppCurrent = dzenColor "#3399ff" "" . wrap " " ""
