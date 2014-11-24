@@ -75,17 +75,17 @@ myStartupHook = do
     spawn "xset -b"
     spawn "trayer --edge top --align right --widthtype request --expand true --SetDockType true --SetPartialStrut true --transparent true --alpha 0 --tint 0x1A1918 --expand true --heighttype pixel --height 20 --padding 1"
     -- input method
-    spawn "fcitx"
+    spawn "pgrep -x fcitx || fcitx"
     -- modify by `xrandr -q`
     spawn "/usr/bin/xrandr --auto --output eDP1 --primary --auto --output HDMI1 --right-of eDP1 --auto --output VGA1 --right-of eDP1"
     -- automount
-    spawn "udiskie"
+    spawn "pgrep -x udiskie || udiskie"
     -- background setting
     spawn "sleep 0.1; /usr/bin/feh --bg-scale ~/.xmonad/jzbq.jpeg"
     -- screensaver daemons
     spawn "cinnamon-screensaver"
     -- nm-applet
-    spawn "sleep 0.1;nm-applet"
+    spawn "sleep 0.1;pgrep -x nm-applet || nm-applet"
 
 myManageHook = composeAll . concat $
     [ [ className   =? c --> doF(W.shift "2:www") | c <- webApps]
