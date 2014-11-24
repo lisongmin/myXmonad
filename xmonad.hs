@@ -91,7 +91,7 @@ myManageHook = composeAll . concat $
     [ [ className   =? c --> doF(W.shift "2:www") | c <- webApps]
     , [ className   =? "Thunderbird" --> doF(W.shift "3:mail")]
     , [ className   =? "Gvim" --> viewShift "4:edit"]
-    , [ className   =? "thunar" --> doF(W.shift "5:file")]
+    , [ className   =? f --> doF(W.shift "5:file") | f <- fm ]
     , [ className   =? "Rhythmbox" --> doF(W.shift "8:media")]
     , [ className   =? "Mplayer" --> viewShift "8:media"]
     , [ className   =? c --> doF(W.shift "9:chat") | c <- ircApps]
@@ -101,6 +101,7 @@ myManageHook = composeAll . concat $
   where webApps       = ["Firefox"]
         ircApps       = ["Pidgin", "Virt-viewer"]
         viewShift     = doF . liftM2 (.) W.greedyView W.shift
+        fm            = ["Nemo", "Thunar"]
 
 myScreenshot = "scrot" ++ myScreenshotOptions
 myScreenshotArea = "sleep 0.3s; scrot -s" ++ myScreenshotOptions
