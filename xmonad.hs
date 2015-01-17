@@ -73,6 +73,9 @@ myWorkspaces =
 myStartupHook = do
     -- set no beep
     spawn "xset -b"
+    -- set default cursor
+    spawn "xsetroot -cursor_name left_ptr"
+    -- trayer
     spawn "pgrep -x trayer ||trayer --edge top --align right --widthtype pixel --width 146 --transparent true --alpha 0 --tint 0xC7B7A0 --height 24 --padding 1"
     -- input method
     spawn "pgrep -x fcitx || fcitx"
@@ -86,12 +89,19 @@ myStartupHook = do
     spawn "cinnamon-screensaver"
     -- nm-applet
     spawn "sleep 0.1;pgrep -x nm-applet || nm-applet"
+    -- terminal
+    spawn "pgrep -x xfce4-terminal || xfce4-terminal"
+    -- firefox
+    spawn "pgrep -x firefox || firefox"
+    -- pidgin
+    spawn "pgrep -x pidgin || pidgin"
 
 myManageHook = composeAll . concat $
     [ [ className   =? c --> doF(W.shift "2:www") | c <- webApps]
     , [ className   =? "Thunderbird" --> doF(W.shift "3:mail")]
     , [ className   =? "Gvim" --> viewShift "4:edit"]
     , [ className   =? "thunar" --> doF(W.shift "5:file")]
+    , [ className   =? "nemo" --> doF(W.shift "5:file")]
     , [ className   =? "Rhythmbox" --> doF(W.shift "8:media")]
     , [ className   =? "Mplayer" --> viewShift "8:media"]
     , [ className   =? c --> doF(W.shift "9:chat") | c <- ircApps]
@@ -123,7 +133,7 @@ myKeys =
   , ((controlMask .|. shiftMask, xK_Insert), spawn "systemctl poweroff")
   -- applications key map
   , ((myModMask .|. shiftMask, xK_w), spawn "firefox")
-  , ((myModMask .|. shiftMask, xK_f), spawn "thunar")
+  , ((myModMask .|. shiftMask, xK_f), spawn "nemo --no-desktop")
   , ((myModMask .|. shiftMask, xK_m), spawn "thunderbird")
   , ((myModMask .|. shiftMask, xK_p), spawn "pidgin")
   , ((myModMask .|. shiftMask, xK_v), spawn "virt-viewer -c qemu:///system win7")
