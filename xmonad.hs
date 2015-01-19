@@ -87,6 +87,18 @@ myStartupHook = do
     -- nm-applet
     spawn "sleep 0.1;pgrep -x nm-applet || nm-applet"
 
+    -- auto start ...
+    -- terminal
+    spawn "pgrep -x xfce4-terminal || xfce4-terminal"
+    -- firefox
+    spawn "pgrep -x firefox || firefox"
+    -- thunderbird
+    spawn "pgrep -x thunderbird || thunderbird"
+    -- pidgin
+    spawn "pgrep -x pidgin || pidgin"
+    -- win7
+    spawn "pgrep -x virt-viewer || sleep 2 && virt-viewer -c qemu:///system win7"
+
 myManageHook = composeAll . concat $
     [ [ className   =? c --> doF(W.shift "2:www") | c <- webApps]
     , [ className   =? "Thunderbird" --> doF(W.shift "3:mail")]
