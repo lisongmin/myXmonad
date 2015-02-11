@@ -73,6 +73,9 @@ myWorkspaces =
 myStartupHook = do
     -- set no beep
     spawn "xset -b"
+    -- set default cursor
+    spawn "xsetroot -cursor_name left_ptr"
+    -- system tray.
     spawn "pgrep -x trayer || trayer --edge top --align right --widthtype pixel --width 160 --transparent true --alpha 0 --tint 0x1A1918 --heighttype pixel --height 24 --padding 1"
     -- input method
     spawn "pgrep -x fcitx || fcitx"
@@ -83,7 +86,7 @@ myStartupHook = do
     -- background setting
     spawn "sleep 0.1; /usr/bin/feh --bg-scale ~/.xmonad/jzbq.jpeg"
     -- screensaver daemons
-    spawn "cinnamon-screensaver"
+    spawn "pgrep -x xautolock || xautolock -time 5 -locker \"cinnamon-screensaver-command -l\""
     -- nm-applet
     spawn "sleep 0.1;pgrep -x nm-applet || nm-applet"
 
@@ -97,7 +100,7 @@ myStartupHook = do
     -- pidgin
     spawn "pgrep -x pidgin || pidgin"
     -- win7
-    spawn "pgrep -x virt-viewer || sleep 2 && virt-viewer -c qemu:///system win7"
+    spawn "pgrep -x virt-viewer || sleep 5 && virt-viewer -c qemu:///system win7"
 
 myManageHook = composeAll . concat $
     [ [ className   =? c --> doF(W.shift "2:www") | c <- webApps]
