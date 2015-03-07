@@ -7,7 +7,6 @@
 -- amixer               -- for volume control(in alsa-utils)
 -- scrot                -- for screenshot (gnome-screenshot -a can not show border clearly)
 -- udiskie              -- for automount.
--- nm-applet            -- for network manager in trayer
 -- trayer               -- for trayer support
 
 import XMonad
@@ -86,15 +85,13 @@ myStartupHook = do
     -- background setting
     spawn "sleep 0.1; /usr/bin/feh --bg-scale ~/.xmonad/jzbq.jpeg"
     -- screensaver daemons
-    spawn "cinnamon-screensaver"
-    -- nm-applet
-    spawn "sleep 0.1;pgrep -x nm-applet || nm-applet"
+    spawn "pgrep -x xautolock || xautolock -time 5 -locker \"cinnamon-screensaver-command -l\""
     -- terminal
     spawn "pgrep -x xfce4-terminal || xfce4-terminal"
     -- firefox
     spawn "pgrep -x firefox || firefox"
     -- pidgin
-    spawn "pgrep -x pidgin || pidgin"
+    spawn "pgrep -x pidgin || sleep 5 && pidgin"
 
 myManageHook = composeAll . concat $
     [ [ className   =? c --> doF(W.shift "2:www") | c <- webApps]
