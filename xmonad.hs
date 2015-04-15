@@ -82,13 +82,13 @@ myStartupHook = do
     -- modify by `xrandr -q`
     spawn "/usr/bin/xrandr --auto --output eDP1 --primary --auto --output HDMI1 --right-of eDP1 --auto --output VGA1 --right-of eDP1"
     -- automount
-    spawn "pgrep -x udiskie || udiskie"
+    spawn "pgrep -x udiskie || udiskie -2"
     -- background setting
     spawn "sleep 0.1; /usr/bin/feh --bg-scale ~/.xmonad/jzbq.jpeg"
     -- screensaver daemons
-    spawn "pgrep -x xautolock || xautolock -time 5 -locker \"cinnamon-screensaver-command -l\""
-    -- nm-applet
-    spawn "sleep 0.1;pgrep -x nm-applet || nm-applet"
+    spawn "pgrep -x xautolock || xautolock -time 5 -locker \"xscreensaver-command -lock\""
+    -- eclimd
+    spawn "pgrep -x eclimd || /usr/share/eclipse/eclimd"
 
     -- auto start ...
     -- terminal
@@ -129,7 +129,7 @@ myKeys =
   -- classic alt-tab behaviour
   , ((mod1Mask, xK_Tab), cycleRecentWindows [xK_Alt_L] xK_Tab xK_Tab )
   -- lock screen
-  , ((controlMask .|. mod1Mask, xK_l), spawn "cinnamon-screensaver-command --lock")
+  , ((controlMask .|. mod1Mask, xK_l), spawn "xscreensaver-command -lock")
   -- print screen
   , ((controlMask, xK_Print), spawn myScreenshotArea)
   , ((0, xK_Print), spawn myScreenshot)
