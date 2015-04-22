@@ -86,6 +86,7 @@ myStartupHook = do
     -- background setting
     spawn "sleep 0.1; /usr/bin/feh --bg-scale ~/.xmonad/jzbq.jpeg"
     -- screensaver daemons
+    spawn "pgrep -x xscreensaver || xscreensaver"
     spawn "pgrep -x xautolock || xautolock -time 5 -locker \"xscreensaver-command -lock\""
     -- eclimd
     spawn "pgrep -x eclimd || /usr/share/eclipse/eclimd"
