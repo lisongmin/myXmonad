@@ -8,6 +8,7 @@
 -- scrot                -- for screenshot (gnome-screenshot -a can not show border clearly)
 -- udiskie              -- for automount.
 -- trayer               -- for trayer support
+-- blueman              -- for bluetooth
 
 import XMonad
 import XMonad.Actions.CycleWindows -- classic alt-tab
@@ -78,12 +79,14 @@ myStartupHook = do
     spawn "pgrep -x trayer ||trayer --edge top --align right --widthtype pixel --width 146 --transparent true --alpha 0 --tint 0xC7B7A0 --height 24 --padding 1"
     -- input method
     spawn "pgrep -x fcitx || fcitx"
+    -- blueman
+    spawn "pgrep -x blueman-applet || blueman-applet"
     -- modify by `xrandr -q`
     spawn "/usr/bin/xrandr --auto --output LVDS1 --primary --auto --output HDMI1 --right-of LVDS1 --auto --output VGA1 --right-of LVDS1"
     -- automount
     spawn "pgrep -x udiskie || udiskie -2"
     -- background setting
-    spawn "sleep 0.1; /usr/bin/feh --bg-scale ~/.xmonad/jzbq.jpeg"
+    spawn "sleep 0.1; /usr/bin/feh --bg-scale ~/.xmonad/dvorak.png"
     -- screensaver daemons
     spawn "pgrep -x xautolock || xautolock -time 5 -locker \"cinnamon-screensaver-command -l\""
     -- terminal
@@ -91,10 +94,12 @@ myStartupHook = do
     -- firefox
     spawn "pgrep -x firefox || firefox"
     -- pidgin
-    spawn "pgrep -x pidgin || sleep 5 && pidgin"
+    -- spawn "pgrep -x pidgin || sleep 5 && pidgin"
+    -- telegram
+    spawn "pgrep -x telegram || telegram"
 
 myManageHook = composeAll . concat $
-    [ [ className   =? c --> doF(W.shift "2:www") | c <- webApps]
+    [ [ className   =? "Firefox" <&&> stringProperty "WM_WINDOW_ROLE" =? "browser" --> doF(W.shift "2:www")]
     , [ className   =? "Thunderbird" --> doF(W.shift "3:mail")]
     , [ className   =? "Gvim" --> viewShift "4:edit"]
     , [ className   =? "thunar" --> doF(W.shift "5:file")]
@@ -105,8 +110,7 @@ myManageHook = composeAll . concat $
     , [ resource    =? "TeamViewer.exe" <&&> title =? "Computers & Contacts" --> doIgnore]
     , [ resource    =? "TeamViewer.exe" --> viewShift "7"]
     ]
-  where webApps       = ["Firefox"]
-        ircApps       = ["Pidgin", "Virt-viewer"]
+  where ircApps       = ["Pidgin", "Virt-viewer", "Telegram"]
         viewShift     = doF . liftM2 (.) W.greedyView W.shift
 
 myScreenshot = "scrot" ++ myScreenshotOptions
@@ -133,7 +137,7 @@ myKeys =
   , ((myModMask .|. shiftMask, xK_f), spawn "nemo --no-desktop")
   , ((myModMask .|. shiftMask, xK_m), spawn "thunderbird")
   , ((myModMask .|. shiftMask, xK_p), spawn "pidgin")
-  , ((myModMask .|. shiftMask, xK_v), spawn "virt-viewer -c qemu:///system win7")
+  , ((myModMask .|. shiftMask, xK_v), spawn "virt-viewer -f -c qemu:///system win7")
   -- volume control
   , ((0 , xF86XK_AudioLowerVolume), spawn "amixer set Master 4%-")
   , ((0 , xF86XK_AudioRaiseVolume), spawn "amixer set Master 4%+")
