@@ -80,15 +80,15 @@ myStartupHook = do
     -- input method
     spawn "pgrep -x fcitx || fcitx"
     -- blueman
-    spawn "pgrep -x blueman-applet || blueman-applet"
+    -- spawn "pgrep -x blueman-applet || blueman-applet"
     -- modify by `xrandr -q`
     spawn "/usr/bin/xrandr --auto --output LVDS1 --primary --auto --output HDMI1 --right-of LVDS1 --auto --output VGA1 --right-of LVDS1"
     -- automount
-    spawn "pgrep -x udiskie || udiskie -2"
+    -- spawn "pgrep -x udiskie || udiskie -2"
     -- background setting
     spawn "sleep 0.1; /usr/bin/feh --bg-scale ~/.xmonad/dvorak.png"
     -- screensaver daemons
-    spawn "pgrep -x xautolock || xautolock -time 5 -locker \"cinnamon-screensaver-command -l\""
+    -- spawn "pgrep -x xautolock || xautolock -time 5 -locker \"cinnamon-screensaver-command -l\""
     -- terminal
     spawn "pgrep -x xfce4-terminal || xfce4-terminal"
     -- firefox
@@ -137,7 +137,7 @@ myKeys =
   , ((myModMask .|. shiftMask, xK_f), spawn "nemo --no-desktop")
   , ((myModMask .|. shiftMask, xK_m), spawn "thunderbird")
   , ((myModMask .|. shiftMask, xK_p), spawn "pidgin")
-  , ((myModMask .|. shiftMask, xK_v), spawn "virt-viewer -f -c qemu:///system win7")
+  -- , ((myModMask .|. shiftMask, xK_v), spawn "virt-viewer -f -c qemu:///system win7")
   -- volume control
   , ((0 , xF86XK_AudioLowerVolume), spawn "amixer set Master 4%-")
   , ((0 , xF86XK_AudioRaiseVolume), spawn "amixer set Master 4%+")
