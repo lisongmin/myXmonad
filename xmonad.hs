@@ -86,11 +86,12 @@ myStartupHook = do
     -- automount
     -- spawn "pgrep -x udiskie || udiskie -2"
     -- background setting
-    spawn "sleep 0.1; /usr/bin/feh --bg-scale ~/.xmonad/dvorak.png"
+    spawn "sleep 0.1; /usr/bin/feh --bg-scale ~/.xmonad/jzbq.jpeg"
     -- screensaver daemons
     -- spawn "pgrep -x xautolock || xautolock -time 5 -locker \"cinnamon-screensaver-command -l\""
     -- terminal
     spawn "pgrep -x xfce4-terminal || xfce4-terminal"
+    spawn "pgrep -x tilda || tilda -h"
     -- firefox
     spawn "pgrep -x firefox || firefox"
     -- pidgin
