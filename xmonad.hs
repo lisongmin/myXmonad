@@ -88,7 +88,8 @@ myStartupHook = do
     -- background setting
     spawn "sleep 0.1; /usr/bin/feh --bg-scale ~/.xmonad/jzbq.jpeg"
     -- screensaver daemons
-    -- spawn "pgrep -x xautolock || xautolock -time 5 -locker \"cinnamon-screensaver-command -l\""
+    spawn "pgrep -x xscreensaver || xscreensaver"
+    spawn "pgrep -x xss-lock || xss-lock -- xscreensaver-command -lock"
     -- terminal
     spawn "pgrep -x xfce4-terminal || xfce4-terminal"
     spawn "pgrep -x tilda || tilda -h"
@@ -116,7 +117,7 @@ myManageHook = composeAll . concat $
 
 myScreenshot = "scrot" ++ myScreenshotOptions
 myScreenshotArea = "sleep 0.3s; scrot -s" ++ myScreenshotOptions
-myScreenshotOptions = " -e 'mv $f ~/Pictures/' '%Y%m%dT%H%M%S_$wx$h_scrot.png'"
+myScreenshotOptions = " -e 'mv $f '/tmp/%Y%m%dT%H%M%S_$wx$h_scrot.png'"
 
 myKeys =
   -- run command
@@ -125,7 +126,7 @@ myKeys =
   -- classic alt-tab behaviour
   , ((mod1Mask, xK_Tab), cycleRecentWindows [xK_Alt_L] xK_Tab xK_Tab )
   -- lock screen
-  , ((controlMask .|. mod1Mask, xK_l), spawn "cinnamon-screensaver-command --lock")
+  , ((controlMask .|. mod1Mask, xK_l), spawn "xscreensaver-command -lock")
   -- print screen
   , ((controlMask, xK_Print), spawn myScreenshotArea)
   , ((0, xK_Print), spawn myScreenshot)
@@ -135,7 +136,7 @@ myKeys =
   , ((controlMask .|. shiftMask, xK_Insert), spawn "systemctl poweroff")
   -- applications key map
   , ((myModMask .|. shiftMask, xK_w), spawn "firefox")
-  , ((myModMask .|. shiftMask, xK_f), spawn "nemo --no-desktop")
+  , ((myModMask .|. shiftMask, xK_f), spawn "thunar")
   , ((myModMask .|. shiftMask, xK_m), spawn "thunderbird")
   , ((myModMask .|. shiftMask, xK_p), spawn "pidgin")
   -- , ((myModMask .|. shiftMask, xK_v), spawn "virt-viewer -f -c qemu:///system win7")
