@@ -83,13 +83,12 @@ myStartupHook = do
     -- spawn "pgrep -x blueman-applet || blueman-applet"
     -- modify by `xrandr -q`
     spawn "/usr/bin/xrandr --auto --output LVDS1 --primary --auto --output HDMI1 --right-of LVDS1 --auto --output VGA1 --right-of LVDS1"
+    -- xautolock daemons
+    spawn "pgrep -x xautolock ||xautolock -time 10 -locker \"dm-tool lock\" -killtime 60 -killer \"systemctl suspend\""
     -- automount
     -- spawn "pgrep -x udiskie || udiskie -2"
     -- background setting
     spawn "sleep 0.1; /usr/bin/feh --bg-scale ~/.xmonad/jzbq.jpeg"
-    -- screensaver daemons
-    spawn "pgrep -x xscreensaver || xscreensaver"
-    spawn "pgrep -x xss-lock || xss-lock -- xscreensaver-command -lock"
     -- terminal
     spawn "pgrep -x xfce4-terminal || xfce4-terminal"
     spawn "pgrep -x tilda || tilda -h"
@@ -117,7 +116,7 @@ myManageHook = composeAll . concat $
 
 myScreenshot = "scrot" ++ myScreenshotOptions
 myScreenshotArea = "sleep 0.3s; scrot -s" ++ myScreenshotOptions
-myScreenshotOptions = " -e 'mv $f '/tmp/%Y%m%dT%H%M%S_$wx$h_scrot.png'"
+myScreenshotOptions = " -e 'mv $f /tmp/%Y%m%dT%H%M%S_$wx$h_scrot.png'"
 
 myKeys =
   -- run command
@@ -126,7 +125,7 @@ myKeys =
   -- classic alt-tab behaviour
   , ((mod1Mask, xK_Tab), cycleRecentWindows [xK_Alt_L] xK_Tab xK_Tab )
   -- lock screen
-  , ((controlMask .|. mod1Mask, xK_l), spawn "xscreensaver-command -lock")
+  , ((controlMask .|. mod1Mask, xK_l), spawn "dm-tool lock")
   -- print screen
   , ((controlMask, xK_Print), spawn myScreenshotArea)
   , ((0, xK_Print), spawn myScreenshot)
