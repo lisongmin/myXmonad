@@ -145,6 +145,10 @@ myKeys =
   , ((0 , xF86XK_AudioLowerVolume), spawn "amixer set Master 4%-")
   , ((0 , xF86XK_AudioRaiseVolume), spawn "amixer set Master 4%+")
   , ((0 , xF86XK_AudioMute), spawn "amixer set Master toggle")
+  , ((0 , xF86XK_AudioPrev), spawn "mpc prev")
+  , ((0 , xF86XK_AudioNext), spawn "mpc next")
+  , ((0 , xF86XK_AudioPlay), spawn "mpc toggle")
+  , ((0 , xF86XK_AudioStop), spawn "mpc stop")
   -- undo float windows.
   , ((myModMask, xK_t ), withFocused $ windows . W.sink)
   ]
