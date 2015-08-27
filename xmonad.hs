@@ -84,7 +84,9 @@ myStartupHook = do
     -- modify by `xrandr -q`
     spawn "/usr/bin/xrandr --auto --output LVDS1 --primary --auto --output HDMI1 --right-of LVDS1 --auto --output VGA1 --right-of LVDS1"
     -- xautolock daemons
-    spawn "pgrep -x xautolock ||xautolock -time 10 -locker \"dm-tool lock\" -killtime 60 -killer \"systemctl suspend\""
+    spawn "pgrep -x xautolock || xautolock -time 10 -locker sxlock -killtime 60 -killer \"systemctl hibernate\""
+    -- lock after suspend or hibernate
+    spawn "pgrep -x xss-lock || xss-lock -- /usr/bin/sxlock"
     -- automount
     -- spawn "pgrep -x udiskie || udiskie -2"
     -- background setting
